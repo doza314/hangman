@@ -1,0 +1,14 @@
+/Users/ryan/Projects/hangman/bin/Debug/net9.0/hangman
+/Users/ryan/Projects/hangman/bin/Debug/net9.0/hangman.deps.json
+/Users/ryan/Projects/hangman/bin/Debug/net9.0/hangman.runtimeconfig.json
+/Users/ryan/Projects/hangman/bin/Debug/net9.0/hangman.dll
+/Users/ryan/Projects/hangman/bin/Debug/net9.0/hangman.pdb
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.AssemblyInfoInputs.cache
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.AssemblyInfo.cs
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.csproj.CoreCompileInputs.cache
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.dll
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/refint/hangman.dll
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.pdb
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.genruntimeconfig.cache
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/ref/hangman.dll
