@@ -4,7 +4,7 @@ using System.Text;
 
 class Client
 {
-  private const int Port = 5000;
+  private const int Port = 5001;
 
   public void Run()
   {
@@ -23,19 +23,25 @@ class Client
       using NetworkStream stream = client.GetStream();
       using var reader = new StreamReader(stream, Encoding.UTF8);
       using var writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true };   
-
-      while(true)
+      
+      Console.WriteLine("here");
+      while (true)
       {
+          
           string? msg = reader.ReadLine();  // <-- RECEIVE from host
           if (msg == null)
           {
               Console.WriteLine("[CLIENT] Disconnected from host.");
               break;
           }
-         
+          
+          Console.WriteLine(msg);
+
           var parts = msg.Split('|');
-          if (parts.Length < 6 || parts[0] != "STATE")
-          continue; // malformed, ignore
+          if (parts.Length < 3 || parts[0] != "STATE") {continue;} // malformed, ignore
+
+          
+           
       }
   } 
 }

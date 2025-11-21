@@ -4,7 +4,7 @@ using System.Text;
 
 class Host
 {
-  private const int Port = 5000;
+  private const int Port = 5001;
   private string? word;
 
   public void Run()
@@ -17,7 +17,7 @@ class Host
     if (user_input == null) { return; }
     word = user_input;
 
-    Console.Clear();
+    Console.WriteLine("here");
 
     Game game = new Game(word);
 
