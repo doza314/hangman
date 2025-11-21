@@ -2,7 +2,7 @@ using System.Text.Json;
 
 class APIHandler
 { 
-  public async Task<string> getRandomWord()
+  public static async Task<string> getRandomWord()
   {
         using var client = new HttpClient();
 

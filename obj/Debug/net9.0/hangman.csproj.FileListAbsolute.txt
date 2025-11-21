@@ -12,3 +12,4 @@
 /Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.pdb
 /Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.genruntimeconfig.cache
 /Users/ryan/Projects/hangman/obj/Debug/net9.0/ref/hangman.dll
+/Users/ryan/Projects/hangman/obj/Debug/net9.0/hangman.sourcelink.json
