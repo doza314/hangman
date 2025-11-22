@@ -60,13 +60,13 @@ class Client
           if(parts[4] == "2") //client wins
           {
             Console.WriteLine("You Win!!!");
-            Console.WriteLine("Your opponent was unable to guess the word(s)!");
+            Console.WriteLine("You guessed the word(s)!");
             break;
           }
           else if(parts[4] == "1")//host wins
           {
             Console.WriteLine("You Lose!!!");
-            Console.WriteLine("Your opponent guessed the word(s)!");
+            Console.WriteLine("You were unable to guess the word(s)!");
             Console.WriteLine("The word was '" + parts[5] + "'!");
             break;
           }
