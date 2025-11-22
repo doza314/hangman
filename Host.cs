@@ -44,7 +44,7 @@ class Host
           stateString = game.StateNum();
 
           //WIN/LOSS check
-          if(stateString == "2")
+          if(stateString == "1")
           {
             Console.WriteLine("You Win!!!");
             Console.WriteLine("Your opponent was unable to guess the word(s)!");
@@ -53,7 +53,7 @@ class Host
             writer.WriteLine(stateMessage);
             break;
           }
-          else if(stateString == "1")
+          else if(stateString == "2")
           {
             Console.WriteLine("You Lose!!!");
             Console.WriteLine("Your opponent guessed the word(s)!");
@@ -69,7 +69,7 @@ class Host
           guessesString = string.Join("", game.Guesses());
           stateMessage =
                $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{game.StateNum()}/{game.word()}";
-                //0             1                     2                  3                 4
+                //0             1                     2                  3                 4                 5
           writer.WriteLine(stateMessage);  // <-- SEND to client
 
           // 3b. Wait for GUESS message from client

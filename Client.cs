@@ -57,16 +57,17 @@ class Client
           current_stage = int.Parse(parts[1]);
           
           //WIN/LOSS check
-          if(parts[4] == "1")
+          if(parts[4] == "2") //client wins
           {
             Console.WriteLine("You Win!!!");
             Console.WriteLine("Your opponent was unable to guess the word(s)!");
             break;
           }
-          else if(parts[4] == "2")
+          else if(parts[4] == "1")//host wins
           {
             Console.WriteLine("You Lose!!!");
             Console.WriteLine("Your opponent guessed the word(s)!");
+            Console.WriteLine("The word was '" + parts[5] + "'!");
             break;
           }
 
