@@ -71,6 +71,7 @@ class Client
           }
 
           //Print game state
+          Console.Clear();
           Console.WriteLine(stages[current_stage]);
           Console.WriteLine(parts[2]);
           Console.WriteLine(parts[3]);

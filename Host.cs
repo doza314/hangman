@@ -84,15 +84,9 @@ class Host
 
           // Expect "GUESS|x"
           var parts = msg.Split('/');
-          foreach(string s in parts)
-          {
-            Console.Write("Part");
-            Console.WriteLine(s);
-          }
           if (parts[0] == "GUESS")
           {
             guess = parts[1];
-            Console.WriteLine(guess); 
           }
           game.ReceiveGuess(guess);
         }
