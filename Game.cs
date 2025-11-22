@@ -33,17 +33,22 @@ class Game
      }
    }
   }
- 
+
+
   //Print the current state of the game:
   public void printState()
   {
       Console.Clear();
       Console.WriteLine(stages[current_stage]);
+
+      if(set.Count() > 0)
+      {
       Console.Write("Guesses: ");
 
       foreach(char c in set)
       {
             Console.Write(c + ", ");
+      }
       }
 
       Console.WriteLine();
@@ -51,7 +56,26 @@ class Game
 
   }
 
-  //Checks character against each element in the word
+  //For when player locally inputs a guess
+  public void Guess()
+  {
+      string? guess_console = Console.ReadLine();
+      if (guess_console == null) {return;}
+      char guess = guess_console[0];
+      set.Add(guess);
+
+      checkGuess(guess);
+  }
+
+  //For when host receives guess from client
+  public void ReceiveGuess(string guess) 
+  {
+      char g = guess[0];
+      set.Add(g);
+      checkGuess(g);
+  }
+  
+    //Checks character against each element in the word
   public void checkGuess(char guess)
   {
      bool found_match = false;
@@ -69,23 +93,7 @@ class Game
         current_stage += 1;
       }
   }
-  //For when player locally inputs a guess
-  public void Guess()
-  {
-      string? guess_console = Console.ReadLine();
-      if (guess_console == null) {return;}
-      char guess = guess_console[0];
-      set.Add(guess);
 
-      checkGuess(guess);
-  }
-
-  //For when host receives guess from client
-  public void ReceiveGuess(char guess) 
-  {
-      set.Add(guess);
-      checkGuess(guess);
-  }
 
   //Main game loop:
   public void Run()
@@ -114,35 +122,56 @@ class Game
     }
   }
 
-//  public void LAN()
-//  {
-//    switch(_client_type)
-//    {
-//      case 1: //HOST
-//        Host host = new Host();
-//
-//      break;
-//      case 2: //CLIENT
-//        Client client = new Client();
-// 
-//      break;  
-//    }
-//  }
+  //HOST MESSAGE COMPONENTS:
 
-  //Getters
-  public string HiddenWord()
+    public string StageNumberString() //1
+  {
+    return current_stage.ToString();
+  }
+
+    //returns string of guesses
+  public string Guesses() //2
+  {
+    string guessChars = "";
+
+    if(set.Count > 0)
+    {
+      guessChars = string.Join(", ", set);      
+      return guessChars;
+    }
+    else
+    {
+      return " ";
+    }
+  }
+
+  public string HiddenWord() //3 
   {
     return _hidden_word;
   }
-
-  public HashSet<char> Guesses()
+  
+  public string StateNum()
   {
-    return set;
+    if (current_stage < stages.Length)
+    {
+      if(_hidden_word == _word)
+      {
+        return "2"; //Client wins
+      }
+      else
+      {
+        return "0"; //Still playing
+      }
+    }
+    else
+    {
+      return "1"; //Host wins
+    }
   }
-
-  public string StageString()
+  
+  public string word()
   {
-    return stages[current_stage];
+    return _word;
   }
 
   public bool hung()

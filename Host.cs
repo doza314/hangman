@@ -6,7 +6,10 @@ class Host
 {
   private const int Port = 5001;
   private string? word;
-
+  private string guess = " ";
+  private string stateString = " ";
+  private string stateMessage = " ";
+  private string guessesString = " ";
   public void Run()
   {
     //Host creates secret word
@@ -38,53 +41,61 @@ class Host
     // 3. Main host loop
         while (true)
         {
-          while(game.hung())
+          stateString = game.StateNum();
+
+          //WIN/LOSS check
+          if(stateString == "2")
           {
+            Console.WriteLine("You Win!!!");
+            Console.WriteLine("Your opponent was unable to guess the word(s)!");
+            stateMessage = 
+              $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{game.StateNum()}/{game.word()}";
+            writer.WriteLine(stateMessage);
+            break;
+          }
+          else if(stateString == "1")
+          {
+            Console.WriteLine("You Lose!!!");
+            Console.WriteLine("Your opponent guessed the word(s)!");
+            stateMessage = 
+              $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{game.StateNum()}/{game.word()}";
+            writer.WriteLine(stateMessage);
+            break;
+          }
+
             game.printState();
 
-           // Determine status
-           //string status = "PLAY";
-           // if (game.IsWon) status = "WIN";
-           // else if (game.IsLost) status = "LOSE";
-
-
             // 3a. Build and send STATE message to client
-          string guessesString = string.Join("", game.Guesses());
-          string stateMessage =
-               $"STATE|{game.HiddenWord()}|{game.StageString()}|{game.Guesses()}";
-               writer.WriteLine(stateMessage);  // <-- SEND to client
+          guessesString = string.Join("", game.Guesses());
+          stateMessage =
+               $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{game.StateNum()}/{game.word()}";
+                //0             1                     2                  3                 4
+          writer.WriteLine(stateMessage);  // <-- SEND to client
 
-          // If game over, stop
-          //  if (status == "WIN")
-          //  {
-          //      Console.WriteLine("[HOST] Client won!");
-          //      break;
-          //  }
-          //  if (status == "LOSE")
-          //  {
-          //      Console.WriteLine("[HOST] Client lost. Word was: " + word);
-          //      break;
-          //  }
+          // 3b. Wait for GUESS message from client
+          Console.WriteLine("Waiting for guess...");
 
-            // 3b. Wait for GUESS message from client
-            char guess = ' '; 
-            string? msg = reader.ReadLine();  // <-- RECEIVE from client
-            if (msg == null)
-            {
-                Console.WriteLine("[HOST] Client disconnected.");
-                break;
-            }
-            // Expect "GUESS|x"
-            var parts = msg.Split('|');
-            if (parts.Length == 2 && parts[0] == "GUESS")
-            {
-                guess = parts[1][0];
-                
-            }
-           game.ReceiveGuess(guess);
+          string? msg = reader.ReadLine();  // <-- RECEIVE from client
+          if (msg == null)
+          {
+            Console.WriteLine("[HOST] Client disconnected.");
+            break;
+          }
+
+          // Expect "GUESS|x"
+          var parts = msg.Split('/');
+          foreach(string s in parts)
+          {
+            Console.Write("Part");
+            Console.WriteLine(s);
+          }
+          if (parts[0] == "GUESS")
+          {
+            guess = parts[1];
+            Console.WriteLine(guess); 
+          }
+          game.ReceiveGuess(guess);
         }
-
         listener.Stop();
     }
    }
-  } 

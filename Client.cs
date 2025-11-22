@@ -6,6 +6,18 @@ class Client
 {
   private const int Port = 5001;
 
+  private string[] stages = 
+  [
+      "  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========",
+      "  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========",
+      "  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========",
+      "  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n=========",
+      "  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========",
+      "  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n=========",
+      "  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n=========",
+  ];
+  
+  private int current_stage = 0;
   public void Run()
   {
       //Enter Host's IP
@@ -24,24 +36,57 @@ class Client
       using var reader = new StreamReader(stream, Encoding.UTF8);
       using var writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true };   
       
-      Console.WriteLine("here");
+      //Console.WriteLine("here");
       while (true)
-      {
-          
+      {  
+          //Host sends:
+          //string stateMessage =
+          //     $"STATE/\n{game.StageString()}/\n{game.Guesses()}/\n{game.HiddenWord()}";
+          //     writer.WriteLine(stateMessage); 
+
           string? msg = reader.ReadLine();  // <-- RECEIVE from host
           if (msg == null)
           {
               Console.WriteLine("[CLIENT] Disconnected from host.");
               break;
           }
-          
-          Console.WriteLine(msg);
 
-          var parts = msg.Split('|');
-          if (parts.Length < 3 || parts[0] != "STATE") {continue;} // malformed, ignore
-
+          //Split message
+          var parts = msg.Split('/');
+          if (parts[0] != "STATE") {continue;} // malformed, ignorei
+          current_stage = int.Parse(parts[1]);
           
-           
+          //WIN/LOSS check
+          if(parts[4] == "1")
+          {
+            Console.WriteLine("You Win!!!");
+            Console.WriteLine("Your opponent was unable to guess the word(s)!");
+            break;
+          }
+          else if(parts[4] == "2")
+          {
+            Console.WriteLine("You Lose!!!");
+            Console.WriteLine("Your opponent guessed the word(s)!");
+            break;
+          }
+
+          //Print game state
+          Console.WriteLine(stages[current_stage]);
+          Console.WriteLine(parts[2]);
+          Console.WriteLine(parts[3]);
+          Console.Write("Guess a letter: ");
+
+          //Client inputs guess:
+          string guess = "";
+          string? client_input = Console.ReadLine();
+
+          if (client_input == null) { return; }
+          guess = client_input;
+          string guess_msg = 
+            $"GUESS/{guess}";
+
+          writer.WriteLine(guess_msg); //<-- Send to Host 
+
       }
   } 
 }
