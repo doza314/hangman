@@ -56,6 +56,7 @@ class Game
 
   }
 
+
   //For when player locally inputs a guess
   public void Guess()
   {
@@ -103,14 +104,14 @@ class Game
       if(_hidden_word == _word)
       {
         Console.WriteLine("you win!!!");
+        Console.WriteLine("The word was: " + _word);
         break;
       }
 
       if(current_stage == stages.Length - 1)
       {
         Console.WriteLine("you lost lol !!!!");
-        Console.Write("The word was: ");
-        Console.WriteLine(_word);
+        Console.Write("The word was: " + _word);
         break;
       }
 
@@ -122,14 +123,16 @@ class Game
     }
   }
 
+
   //HOST MESSAGE COMPONENTS:
+  //Messages between host/client must be in string form.
 
     public string StageNumberString() //1
   {
     return current_stage.ToString();
   }
 
-    //returns string of guesses
+  //returns string of guesses
   public string Guesses() //2
   {
     string guessChars = "";
@@ -145,14 +148,16 @@ class Game
     }
   }
 
+  //returns string of underscores and correct guesses
   public string HiddenWord() //3 
   {
     return _hidden_word;
   }
   
+  //returns the current game state as a string  
   public string StateNum()
   {
-    if (current_stage < stages.Length)
+    if (current_stage < stages.Length - 1)
     {
       if(_hidden_word == _word)
       {
@@ -168,14 +173,10 @@ class Game
       return "1"; //Host wins
     }
   }
-  
+ 
+  //actual answer
   public string word()
   {
     return _word;
-  }
-
-  public bool hung()
-  {
-    return (current_stage < stages.Length);
   }
 }

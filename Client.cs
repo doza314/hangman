@@ -17,7 +17,18 @@ class Client
       "  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n=========",
   ];
   
-  private int current_stage = 0;
+  private string currentStage = " ";
+
+  private int stageNumber = 0;
+ 
+  public void printState(string gallow, string guesses, string hiddenWord)
+  {
+    Console.Clear();
+    Console.WriteLine(gallow);
+    Console.WriteLine(guesses);
+    Console.WriteLine(hiddenWord);
+  }
+
   public void Run()
   {
       //Enter Host's IP
@@ -40,42 +51,47 @@ class Client
       while (true)
       {  
           //Host sends:
-          //string stateMessage =
-          //     $"STATE/\n{game.StageString()}/\n{game.Guesses()}/\n{game.HiddenWord()}";
-          //     writer.WriteLine(stateMessage); 
+          //stateMessage =
+          //     $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{game.StateNum()}/{game.word()}";
+          //         0             1                     2                  3                 4                 5
 
-          string? msg = reader.ReadLine();  // <-- RECEIVE from host
-          if (msg == null)
+
+          string? message = reader.ReadLine();  // <-- RECEIVE from host
+          if (message == null)
           {
               Console.WriteLine("[CLIENT] Disconnected from host.");
               break;
           }
 
           //Split message
-          var parts = msg.Split('/');
-          if (parts[0] != "STATE") {continue;} // malformed, ignorei
-          current_stage = int.Parse(parts[1]);
+          var msg = message.Split('/');
+          if (msg[0] != "STATE") {continue;} // malformed, ignore
+          stageNumber = int.Parse(msg[1]);
+          currentStage = stages[stageNumber];
           
           //WIN/LOSS check
-          if(parts[4] == "2") //client wins
+          if(msg[4] == "2") //client wins
           {
+            printState(currentStage, msg[2], msg[3]);
+
             Console.WriteLine("You Win!!!");
             Console.WriteLine("You guessed the word(s)!");
             break;
           }
-          else if(parts[4] == "1")//host wins
+          else if(msg[4] == "1")//host wins
           {
+
+            printState(currentStage, msg[2], msg[3]);
+
             Console.WriteLine("You Lose!!!");
             Console.WriteLine("You were unable to guess the word(s)!");
-            Console.WriteLine("The word was '" + parts[5] + "'!");
+            Console.WriteLine("The word was '" + msg[5] + "'!");
             break;
           }
 
+
           //Print game state
-          Console.Clear();
-          Console.WriteLine(stages[current_stage]);
-          Console.WriteLine(parts[2]);
-          Console.WriteLine(parts[3]);
+          printState(currentStage, msg[2], msg[3]);
           Console.Write("Guess a letter: ");
 
           //Client inputs guess:

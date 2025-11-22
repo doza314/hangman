@@ -49,7 +49,7 @@ class Host
             Console.WriteLine("You Win!!!");
             Console.WriteLine("Your opponent was unable to guess the word(s)!");
             stateMessage = 
-              $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{game.StateNum()}/{game.word()}";
+              $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{stateString}/{game.word()}";
             writer.WriteLine(stateMessage);
             break;
           }
@@ -58,14 +58,14 @@ class Host
             Console.WriteLine("You Lose!!!");
             Console.WriteLine("Your opponent guessed the word(s)!");
             stateMessage = 
-              $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{game.StateNum()}/{game.word()}";
+              $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{stateString}/{game.word()}";
             writer.WriteLine(stateMessage);
             break;
           }
 
             game.printState();
 
-            // 3a. Build and send STATE message to client
+          // 3a. Build and send STATE message to client
           guessesString = string.Join("", game.Guesses());
           stateMessage =
                $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{game.StateNum()}/{game.word()}";
@@ -75,18 +75,18 @@ class Host
           // 3b. Wait for GUESS message from client
           Console.WriteLine("Waiting for guess...");
 
-          string? msg = reader.ReadLine();  // <-- RECEIVE from client
-          if (msg == null)
+          string? message = reader.ReadLine(); // <-- RECEIVE from client
+          if (message == null)
           {
             Console.WriteLine("[HOST] Client disconnected.");
             break;
           }
 
           // Expect "GUESS|x"
-          var parts = msg.Split('/');
-          if (parts[0] == "GUESS")
+          var msg = message.Split('/');
+          if (msg[0] == "GUESS")
           {
-            guess = parts[1];
+            guess = msg[1];
           }
           game.ReceiveGuess(guess);
         }
