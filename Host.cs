@@ -65,14 +65,15 @@ class Host
 
             game.printState();
 
-          // 3a. Build and send STATE message to client
+          //Build and send STATE message to client
           guessesString = string.Join("", game.Guesses());
           stateMessage =
                $"STATE/{game.StageNumberString()}/{game.Guesses()}/{game.HiddenWord()}/{game.StateNum()}/{game.word()}";
                 //0             1                     2                  3                 4                 5
           writer.WriteLine(stateMessage);  // <-- SEND to client
 
-          // 3b. Wait for GUESS message from client
+
+          // Wait for GUESS message from client
           Console.WriteLine("Waiting for guess...");
 
           string? message = reader.ReadLine(); // <-- RECEIVE from client
